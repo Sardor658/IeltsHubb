@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "email": "google_user@gmail.com",
+      "name": "Sardor Fayzullayev",
+      "stars": 0,
+      "time": 0,
+      "streak": 0,
+      "coins": 0,
+      "practices": 0
+    },
+    {
+      "email": "fayzullayevsardor211@gmail.com",
+      "name": "Sardor Fayzullayev",
+      "stars": 15,
+      "time": 1,
+      "streak": 1,
+      "coins": 10,
+      "practices": 2,
+      "lastPracticeDate": "2026-05-18",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka"
+    }
+  ]
+}

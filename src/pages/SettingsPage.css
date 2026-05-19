@@ -1,0 +1,482 @@
+/* Settings Page Main Layout */
+.settings-container-main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 0 2rem 0;
+}
+
+.settings-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--card-shadow);
+  transition: all 0.2s ease;
+}
+
+.settings-back-btn:hover {
+  transform: translateX(-4px);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.settings-grid-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+/* Glassmorphism panels */
+.settings-main-panel,
+.active-membership-status-card,
+.promo-voucher-redeem-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  box-shadow: var(--card-shadow);
+  padding: 2rem;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+
+.settings-main-panel:hover,
+.active-membership-status-card:hover,
+.promo-voucher-redeem-card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Section Header Titles */
+.settings-section-lbl {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.settings-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  margin: 1.75rem 0;
+}
+
+/* Preference grids */
+.settings-preferences-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.settings-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-input-lbl {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Language selector buttons */
+.language-selector-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.lang-option-btn {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-option-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+.lang-option-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.25);
+}
+
+/* Theme selector buttons */
+.theme-selector-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.theme-option-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-option-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+.theme-option-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.25);
+}
+
+/* Form selectors */
+.settings-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.settings-icon-left {
+  position: absolute;
+  left: 0.9rem;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.settings-styled-select,
+.settings-styled-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+  background: var(--bg-color);
+  color: var(--text-primary);
+  outline: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.settings-styled-select:focus,
+.settings-styled-input:focus {
+  border-color: var(--primary-color);
+  background: var(--card-bg);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+/* Notifications Toggle Rows */
+.notifications-toggle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.toggle-switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  transition: background 0.2s ease;
+}
+
+.toggle-switch-row:hover {
+  background: var(--card-bg);
+}
+
+.toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.toggle-title-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Toggle Switch Control */
+.switch-control-btn {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switch-control-btn input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-color);
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 34px;
+}
+
+.switch-slider-round:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.switch-control-btn input:checked + .switch-slider-round {
+  background-color: var(--primary-color);
+}
+
+.switch-control-btn input:checked + .switch-slider-round:before {
+  transform: translateX(20px);
+}
+
+/* Save preferences button styling */
+.settings-save-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.settings-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+  color: white;
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.settings-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* Right Column Side Panel Cards */
+.settings-side-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Membership Plan display details */
+.active-membership-status-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.membership-title-lbl {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.membership-plan-val {
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.membership-plan-val.pro {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.membership-plan-val.pro_plus {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glowGold 2s infinite alternate;
+}
+
+@keyframes glowGold {
+  from {
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.2));
+  }
+  to {
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+  }
+}
+
+.membership-subtext {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Promo redemption voucher details */
+.promo-voucher-redeem-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.promo-title-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.promo-instruction-subtext {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.promo-redeem-form-actual {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.promo-input-styled {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  font-size: 0.8rem;
+  background: var(--bg-color);
+  color: var(--text-primary);
+  outline: none;
+  font-family: inherit;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.promo-input-styled:focus {
+  border-color: #d97706;
+  background: var(--card-bg);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+.promo-input-styled::placeholder {
+  text-transform: none;
+  font-weight: normal;
+}
+
+.promo-redeem-submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--text-primary);
+  color: var(--card-bg);
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.promo-redeem-submit-btn:hover:not(:disabled) {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.15);
+}
+
+.promo-redeem-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive Grid layouts */
+@media (max-width: 1024px) {
+  .settings-grid-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .settings-side-card-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .settings-preferences-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .settings-side-card-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .settings-save-row {
+    width: 100%;
+  }
+  
+  .settings-save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

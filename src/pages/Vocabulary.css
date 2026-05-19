@@ -1,0 +1,516 @@
+.vocabulary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem 4rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.vocab-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  align-self: flex-start;
+}
+
+/* XP bar (shared) */
+.vocab-xp {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.xp-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 99px;
+}
+
+/* Deck list */
+.vocab-decks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Individual deck card */
+.vocab-deck-card {
+  position: relative;
+  border-radius: 18px;
+  padding: 1.2rem 1.4rem 1.4rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.vocab-deck-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+/* "Current" badge top-right */
+.deck-current-badge {
+  position: absolute;
+  top: -1px;
+  right: 14px;
+  background: #f59e0b;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.9rem;
+  border-radius: 0 0 10px 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Level badge */
+.deck-level-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.75rem;
+  border-radius: 99px;
+  margin-bottom: 0.85rem;
+  backdrop-filter: blur(4px);
+  text-transform: lowercase;
+}
+
+/* Card body row */
+.deck-card-body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.deck-info {
+  flex: 1;
+}
+
+.deck-card-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 0.15rem;
+  line-height: 1.1;
+}
+
+.deck-card-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 0.8rem;
+}
+
+/* Progress */
+.deck-progress-section {
+  margin-top: 0.4rem;
+}
+.deck-progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.deck-progress-bar {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.deck-progress-fill {
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* Play button */
+.deck-play-btn {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c63ff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+}
+.deck-play-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.deck-play-btn-dark {
+  color: #374151;
+}
+
+/* My Vocabulary dark card */
+.vocab-my-words-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+}
+.vocab-my-words-card .deck-card-title {
+  color: var(--text-primary);
+  font-size: 1.4rem;
+}
+.vocab-my-words-card .deck-card-sub {
+  color: var(--text-secondary);
+}
+
+/* Back button */
+.vocab-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0;
+  margin-bottom: 1rem;
+  align-self: flex-start;
+  transition: color 0.2s;
+}
+.vocab-back-btn:hover { color: var(--text-primary); }
+
+/* Topics grid */
+.topics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.topic-list-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--card-shadow);
+}
+.topic-list-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.topic-list-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.topic-book-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.topic-list-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.topic-list-meta {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0.1rem 0 0;
+}
+
+.topic-list-progress {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.topic-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.topic-progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.topic-progress-pct {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ============ FLASHCARD PRACTICE ============ */
+.vocab-practice-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem 4rem;
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
+.practice-topic-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 0.3rem;
+  text-align: center;
+}
+
+.practice-counter {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.practice-progress-bar {
+  width: 100%;
+  height: 5px;
+  background: var(--border-color);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.practice-progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+/* Flip card */
+.flashcard {
+  width: 100%;
+  height: 280px;
+  perspective: 1000px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+.flashcard-front {
+  background: var(--primary-color);
+}
+
+.flashcard-back {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transform: rotateY(180deg);
+}
+
+.card-lang-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.15);
+  padding: 0.2rem 0.75rem;
+  border-radius: 99px;
+}
+
+.flashcard-back .card-lang-label {
+  color: var(--text-secondary);
+  background: var(--border-color);
+}
+
+.card-word {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+}
+
+.flashcard-back .card-word {
+  color: var(--text-primary);
+}
+
+.card-tap-hint {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+}
+
+.card-native-en {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.card-ru {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Action buttons */
+.flashcard-actions {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.fc-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2.5rem;
+  border-radius: 99px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex: 1;
+  justify-content: center;
+}
+
+.fc-btn:hover { transform: translateY(-2px); }
+
+.fc-no {
+  background: #fef2f2;
+  color: #ef4444;
+}
+.fc-yes {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+
+[data-theme="dark"] .fc-no { background: rgba(239,68,68,0.15); }
+[data-theme="dark"] .fc-yes { background: rgba(34,197,94,0.15); }
+
+/* Done card */
+.vocab-done-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  width: 100%;
+  box-shadow: var(--card-shadow);
+}
+
+.done-emoji { font-size: 3.5rem; margin-bottom: 0.5rem; }
+
+.vocab-done-card h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0.3rem 0;
+}
+
+.vocab-done-card p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.done-stats {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.done-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
+  font-size: 0.95rem;
+}
+
+.done-stat.known { background: #f0fdf4; color: #22c55e; }
+.done-stat.unknown { background: #fef2f2; color: #ef4444; }
+
+[data-theme="dark"] .done-stat.known { background: rgba(34,197,94,0.15); }
+[data-theme="dark"] .done-stat.unknown { background: rgba(239,68,68,0.15); }
+
+.vocab-restart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 99px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.vocab-restart-btn:hover { opacity: 0.9; }
