@@ -14,6 +14,10 @@ const Leaderboard = () => {
   const currentUser = usersDb.find(u => u.email === currentUserEmail) || null;
   const currentName = currentUser?.name || localStorage.getItem('ielts_user_name') || 'User';
 
+  const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000'
+    : '';
+
   useEffect(() => {
     // 1. Sync current user's stats from ielts_user_stats_precise to local ielts_users_db
     const syncStatsToLocalDb = () => {
@@ -50,7 +54,7 @@ const Leaderboard = () => {
         if (currentUserEmail) {
           const localStats = JSON.parse(localStorage.getItem('ielts_user_stats_precise') || '{}');
           const currentAvatar = localStorage.getItem('ielts_current_user_avatar') || null;
-          await fetch('http://localhost:5000/api/users/register', {
+          await fetch(`${API_BASE}/api/users/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -67,7 +71,7 @@ const Leaderboard = () => {
         }
 
         // Step 2: Fetch leaderboard
-        const response = await fetch('http://localhost:5000/api/leaderboard');
+        const response = await fetch(`${API_BASE}/api/leaderboard`);
         if (!response.ok) throw new Error('Failed to fetch leaderboard data');
         const data = await response.json();
         setLeaderboardData(data);
