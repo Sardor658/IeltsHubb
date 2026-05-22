@@ -136,7 +136,6 @@ const Leaderboard = () => {
           };
 
           const topPlayers = sorted
-            .filter(u => (u[sortKey] || 0) > 0)
             .slice(0, 3)
             .map((u, index) => {
               const rank = index + 1;

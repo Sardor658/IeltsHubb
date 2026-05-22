@@ -5,6 +5,15 @@ import './Admin.css';
 
 const Admin = () => {
   const [isAdminLogged, setIsAdminLogged] = useState(sessionStorage.getItem('ielts_admin_logged') === 'true');
+  const [adminUser, setAdminUser] = useState('');
+  const [adminPass, setAdminPass] = useState('');
+  const [users, setUsers] = useState([]);
+  
+  // Search states
+  const [searchEmail, setSearchEmail] = useState('');
+  const [searchedUser, setSearchedUser] = useState(null);
+  const [searchError, setSearchError] = useState('');
+
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -19,15 +28,6 @@ const Admin = () => {
     el.addEventListener('wheel', handleWheel, { passive: false });
     return () => el.removeEventListener('wheel', handleWheel);
   }, [isAdminLogged, users]);
-  const [adminUser, setAdminUser] = useState('');
-  const [adminPass, setAdminPass] = useState('');
-
-  const [users, setUsers] = useState([]);
-  
-  // Search states
-  const [searchEmail, setSearchEmail] = useState('');
-  const [searchedUser, setSearchedUser] = useState(null);
-  const [searchError, setSearchError] = useState('');
 
   useEffect(() => {
     if (isAdminLogged) {

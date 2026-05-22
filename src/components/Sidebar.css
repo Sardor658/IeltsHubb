@@ -46,13 +46,14 @@
 }
 
 .nav-item:hover {
-  background-color: #f3f4f6;
-  color: var(--text-primary);
+  background-color: var(--primary-light);
+  color: var(--primary-color);
 }
 
 .nav-item.active {
   background-color: var(--primary-light);
   color: var(--primary-color);
+  font-weight: 600;
 }
 
 .nav-icon {

@@ -59,9 +59,8 @@ app.get('/api/leaderboard', async (req, res) => {
         return score;
       };
 
-      // Top 3 for podium — only users with score > 0
+      // Top 3 for podium
       const topPlayers = sorted
-        .filter(u => (u[sortKey] || 0) > 0)
         .slice(0, 3)
         .map((u, index) => {
           const rank = index + 1;
