@@ -27,7 +27,7 @@ function App() {
   };
 
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "274855913473-7c97cfl8ab03ntoo8ggd95dglh3e8b4m.apps.googleusercontent.com"}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "274855913473-o2iluirqai5jl32rbera2getdoqpr7c9.apps.googleusercontent.com"}>
       <Router>
         <Routes>
         {isLoggedIn ? (
