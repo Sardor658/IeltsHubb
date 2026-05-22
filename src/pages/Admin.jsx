@@ -16,6 +16,10 @@ const Admin = () => {
 
   const tableRef = useRef(null);
 
+  const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000'
+    : '';
+
   useEffect(() => {
     const el = tableRef.current;
     if (!el) return;
@@ -35,10 +39,21 @@ const Admin = () => {
     }
   }, [isAdminLogged]);
 
-  const loadUsers = () => {
-    let db = localStorage.getItem('ielts_users_db');
-    if (db) {
-      setUsers(JSON.parse(db));
+  const loadUsers = async () => {
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/users`);
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data);
+        localStorage.setItem('ielts_users_db', JSON.stringify(data));
+      } else {
+        const db = localStorage.getItem('ielts_users_db');
+        if (db) setUsers(JSON.parse(db));
+      }
+    } catch (err) {
+      console.error("Failed to fetch admin users:", err);
+      const db = localStorage.getItem('ielts_users_db');
+      if (db) setUsers(JSON.parse(db));
     }
   };
 
@@ -53,24 +68,23 @@ const Admin = () => {
     }
   };
 
-  const handleUpdatePlan = (userId, newPlan) => {
-    let db = JSON.parse(localStorage.getItem('ielts_users_db')) || [];
-    let updatedDb = db.map(u => u.id === userId ? { ...u, plan: newPlan } : u);
-    localStorage.setItem('ielts_users_db', JSON.stringify(updatedDb));
-    setUsers(updatedDb);
+  const handleUpdatePlan = async (userId, newPlan) => {
+    const targetUser = users.find(u => u.id === userId || u.email === searchedUser?.email);
+    if (!targetUser) return;
 
-    const targetUser = updatedDb.find(u => u.id === userId);
-    
-    // Auto sync current session if admin edits the active logged-in user
-    if (targetUser && targetUser.email === localStorage.getItem('ielts_current_user_email')) {
-      localStorage.setItem('ielts_user_membership_precise', newPlan);
-    }
+    // Optimistically update frontend state
+    const updatedUsers = users.map(u => u.email === targetUser.email ? { ...u, plan: newPlan } : u);
+    setUsers(updatedUsers);
+    localStorage.setItem('ielts_users_db', JSON.stringify(updatedUsers));
 
-    if (searchedUser && searchedUser.id === userId) {
+    if (searchedUser && searchedUser.email === targetUser.email) {
       setSearchedUser({ ...searchedUser, plan: newPlan });
     }
 
-    // Pro yoki Pro+ bo'lsa, foydalanuvchiga tabriq bildirish uchun belgi qo'yish
+    if (targetUser.email === localStorage.getItem('ielts_current_user_email')) {
+      localStorage.setItem('ielts_user_membership_precise', newPlan);
+    }
+
     if (newPlan === 'pro' || newPlan === 'pro_plus') {
       const planLabel = newPlan === 'pro' ? 'PRO 🚀' : 'PRO+ 👑';
       localStorage.setItem(
@@ -78,19 +92,32 @@ const Admin = () => {
         JSON.stringify({ plan: newPlan, planLabel, name: targetUser.name, ts: Date.now() })
       );
     } else {
-      // Free ga qaytarilsa notificationni tozalash
       localStorage.removeItem(`ielts_plan_notify_${targetUser.email}`);
     }
 
-    toast.success(`Muvaffaqiyatli! 🛡️ ${targetUser.name} uchun tarif [${newPlan.toUpperCase()}] ga o'zgartirildi.`);
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/update-plan`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: targetUser.email, plan: newPlan })
+      });
+      if (response.ok) {
+        toast.success(`Muvaffaqiyatli! 🛡️ ${targetUser.name} uchun tarif [${newPlan.toUpperCase()}] ga o'zgartirildi.`);
+      } else {
+        toast.error("Serverda tarifni yangilashda xatolik.");
+      }
+    } catch (err) {
+      console.error("Error updating plan:", err);
+      toast.error("Serverda tarifni yangilashda xatolik.");
+    }
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchError('');
     setSearchedUser(null);
-    let db = JSON.parse(localStorage.getItem('ielts_users_db')) || [];
-    const found = db.find(u => u.email.toLowerCase() === searchEmail.toLowerCase());
+    
+    const found = users.find(u => u.email.toLowerCase() === searchEmail.toLowerCase());
     
     if (found) {
       setSearchedUser(found);

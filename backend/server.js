@@ -241,6 +241,36 @@ app.post('/api/users/register', async (req, res) => {
     console.error('Error registering user:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+// Admin Endpoint: Get all registered users
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    const data = await readData();
+    res.json(data.users || []);
+  } catch (error) {
+    console.error('Error fetching admin users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Admin Endpoint: Update a specific user's membership plan
+app.post('/api/admin/update-plan', async (req, res) => {
+  try {
+    const { email, plan } = req.body;
+    if (!email || !plan) {
+      return res.status(400).json({ error: 'Email and plan are required' });
+    }
+    const data = await readData();
+    const user = data.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (user) {
+      user.plan = plan;
+      await writeData(data);
+      return res.json({ success: true });
+    }
+    res.status(404).json({ error: 'User not found' });
+  } catch (error) {
+    console.error('Error updating user plan:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.listen(PORT, () => {
