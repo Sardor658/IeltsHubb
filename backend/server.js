@@ -15,17 +15,57 @@ app.use(express.json());
 
 const dataPath = path.join(__dirname, 'data.json');
 
+const BUCKET_ID = 'ieltshub_fayzullayev_db_6e33';
+const KV_URL = 'https://kvdb.io/' + BUCKET_ID + '/users';
+
 async function readData() {
+  try {
+    const res = await fetch(KV_URL);
+    if (res.ok) {
+      const text = await res.text();
+      if (text && text.trim()) {
+        return JSON.parse(text);
+      }
+    }
+  } catch (err) {
+    console.error("Failed to read from KVDB, falling back to local file:", err.message);
+  }
+
+  // Fallback to local data.json
   try {
     const data = await fs.readFile(dataPath, 'utf8');
     return JSON.parse(data);
   } catch (error) {
     if (error.code === 'ENOENT') {
       const initialData = { users: [] };
-      await fs.writeFile(dataPath, JSON.stringify(initialData, null, 2));
+      try {
+        await fs.writeFile(dataPath, JSON.stringify(initialData, null, 2));
+      } catch (writeErr) {}
       return initialData;
     }
     throw error;
+  }
+}
+
+async function writeData(data) {
+  try {
+    const res = await fetch(KV_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      console.log("Successfully saved data to KVDB!");
+    }
+  } catch (err) {
+    console.error("Failed to write to KVDB:", err.message);
+  }
+
+  // Local backup write (ignores errors on Vercel read-only filesystem)
+  try {
+    await fs.writeFile(dataPath, JSON.stringify(data, null, 2));
+  } catch (err) {
+    // Silent ignore on serverless read-only filesystem
   }
 }
 
@@ -155,7 +195,7 @@ app.post('/api/users/update', async (req, res) => {
       }
     }
 
-    await fs.writeFile(dataPath, JSON.stringify(data, null, 2));
+    await writeData(data);
     res.json({ success: true });
   } catch (error) {
     console.error('Error updating user:', error);
@@ -185,14 +225,14 @@ app.post('/api/users/register', async (req, res) => {
         practices: practices || 0,
         lastPracticeDate: today
       });
-      await fs.writeFile(dataPath, JSON.stringify(data, null, 2));
+      await writeData(data);
     } else {
       // Update name and avatar if changed
       let changed = false;
       if (name && exists.name !== name) { exists.name = name; changed = true; }
       if (req.body.avatar && exists.avatar !== req.body.avatar) { exists.avatar = req.body.avatar; changed = true; }
       if (changed) {
-        await fs.writeFile(dataPath, JSON.stringify(data, null, 2));
+        await writeData(data);
       }
     }
 
@@ -206,4 +246,6 @@ app.post('/api/users/register', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);
 });
+
+export default app;
 
