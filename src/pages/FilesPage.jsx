@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Search, FolderOpen, FileText, Headphones, BookOpen, Download, ExternalLink, Lock } from 'lucide-react';
 import { getTranslation } from '../utils/translations';
 import './FilesPage.css';
@@ -70,6 +70,20 @@ const MOCK_FILES = [
 const FilesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('allFiles');
+  const tabsRef = useRef(null);
+
+  useEffect(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+    const handleWheel = (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, []);
 
   // Filter logic
   const filteredFiles = useMemo(() => {
@@ -108,7 +122,7 @@ const FilesPage = () => {
         </div>
 
         {/* Category Tabs */}
-        <div className="files-tabs-scroll-area">
+        <div className="files-tabs-scroll-area" ref={tabsRef}>
           <button 
             className={`file-tab-btn ${activeTab === 'allFiles' ? 'active' : ''}`}
             onClick={() => setActiveTab('allFiles')}

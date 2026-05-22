@@ -10,6 +10,10 @@ const Auth = ({ onLogin }) => {
   const location = useLocation();
   const [authMode, setAuthMode] = useState(location.state?.mode || 'login'); // 'login' | 'register'
   const [showPassword, setShowPassword] = useState(false);
+
+  const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000'
+    : '';
   
   const getDb = () => {
     let db = localStorage.getItem('ielts_users_db');
@@ -27,7 +31,7 @@ const Auth = ({ onLogin }) => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        // Google'dan real user ma'lumotlarini (email, name) olish
+        // Google'dan real user ma'lumotlarini (email, name, picture) olish
         const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
         });
@@ -36,6 +40,7 @@ const Auth = ({ onLogin }) => {
         const db = getDb();
         const googleEmail = userInfo.email;
         const googleName = userInfo.name || userInfo.given_name || 'Google User';
+        const googleAvatar = userInfo.picture || null;
 
         let user = db.find(u => u.email.toLowerCase() === googleEmail.toLowerCase());
         if (!user) {
@@ -55,6 +60,31 @@ const Auth = ({ onLogin }) => {
         localStorage.setItem('ielts_current_user_email', user.email);
         localStorage.setItem('ielts_current_user_name', user.name);
         localStorage.setItem('ielts_user_membership_precise', user.plan);
+        if (googleAvatar) {
+          localStorage.setItem('ielts_current_user_avatar', googleAvatar);
+        }
+
+        // Sync with backend API to register/update in server database
+        try {
+          const localStats = JSON.parse(localStorage.getItem('ielts_user_stats_precise') || '{}');
+          await fetch(`${API_BASE}/api/users/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+              avatar: googleAvatar,
+              stars: localStats.stars || 0,
+              time: localStats.practiceTimeMinutes || 0,
+              coins: localStats.coins || 0,
+              streak: localStats.streak || 0,
+              practices: localStats.completedTests || 0
+            })
+          });
+        } catch (syncErr) {
+          console.error("Backend register sync error during Google Login:", syncErr);
+        }
+
         onLogin();
         toast.success("Muvaffaqiyatli kirdingiz! 🎉");
         navigate('/dashboard');
@@ -73,7 +103,7 @@ const Auth = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
 
-  const handleAuthSubmit = (e) => {
+  const handleAuthSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || (authMode === 'register' && !name)) {
       toast.error("Iltimos, barcha maydonlarni to'ldiring!");
@@ -102,6 +132,27 @@ const Auth = ({ onLogin }) => {
       localStorage.setItem('ielts_current_user_email', newUser.email);
       localStorage.setItem('ielts_current_user_name', newUser.name);
       localStorage.setItem('ielts_user_membership_precise', 'free');
+
+      // Sync with backend API to register
+      try {
+        await fetch(`${API_BASE}/api/users/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: newUser.email,
+            name: newUser.name,
+            avatar: null,
+            stars: 0,
+            time: 0,
+            coins: 0,
+            streak: 0,
+            practices: 0
+          })
+        });
+      } catch (syncErr) {
+        console.error("Backend register sync error during Signup:", syncErr);
+      }
+
       onLogin();
       toast.success("Hisobingiz muvaffaqiyatli yaratildi! 🎉");
       navigate('/dashboard');
@@ -122,6 +173,29 @@ const Auth = ({ onLogin }) => {
         localStorage.setItem('ielts_current_user_email', user.email);
         localStorage.setItem('ielts_current_user_name', user.name);
         localStorage.setItem('ielts_user_membership_precise', user.plan);
+
+        // Sync stats with backend on login
+        try {
+          const localStats = JSON.parse(localStorage.getItem('ielts_user_stats_precise') || '{}');
+          const currentAvatar = localStorage.getItem('ielts_current_user_avatar') || null;
+          await fetch(`${API_BASE}/api/users/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+              avatar: currentAvatar,
+              stars: localStats.stars || 0,
+              time: localStats.practiceTimeMinutes || 0,
+              coins: localStats.coins || 0,
+              streak: localStats.streak || 0,
+              practices: localStats.completedTests || 0
+            })
+          });
+        } catch (syncErr) {
+          console.error("Backend register sync error during Login:", syncErr);
+        }
+
         onLogin();
         toast.success("Tizimga muvaffaqiyatli kirdingiz! 🔓");
         navigate('/dashboard');

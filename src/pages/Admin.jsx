@@ -1,10 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Shield, User, Search, AlertCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import './Admin.css';
 
 const Admin = () => {
   const [isAdminLogged, setIsAdminLogged] = useState(sessionStorage.getItem('ielts_admin_logged') === 'true');
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const el = tableRef.current;
+    if (!el) return;
+    const handleWheel = (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [isAdminLogged, users]);
   const [adminUser, setAdminUser] = useState('');
   const [adminPass, setAdminPass] = useState('');
 
@@ -191,7 +205,7 @@ const Admin = () => {
             <span className="user-count-badge">{users.length} ta a'zo</span>
           </div>
 
-          <div className="users-table-wrapper">
+          <div className="users-table-wrapper" ref={tableRef}>
             <table className="users-table">
               <thead>
                 <tr>
