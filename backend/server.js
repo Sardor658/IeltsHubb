@@ -241,6 +241,7 @@ app.post('/api/users/register', async (req, res) => {
     console.error('Error registering user:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
 // Admin Endpoint: Get all registered users
 app.get('/api/admin/users', async (req, res) => {
   try {

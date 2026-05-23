@@ -13,7 +13,8 @@ const MOCK_FILES = [
     size: "14.2 MB",
     isPremium: false,
     icon: BookOpen,
-    color: "#8b5cf6"
+    color: "#8b5cf6",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ const MOCK_FILES = [
     size: "145.8 MB",
     isPremium: false,
     icon: Headphones,
-    color: "#f59e0b"
+    color: "#f59e0b",
+    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ const MOCK_FILES = [
     size: "5.1 MB",
     isPremium: false,
     icon: FileText,
-    color: "#10b981"
+    color: "#10b981",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
   },
   {
     id: 4,
@@ -43,7 +46,8 @@ const MOCK_FILES = [
     size: "8.4 MB",
     isPremium: true,
     icon: BookOpen,
-    color: "#ec4899"
+    color: "#ec4899",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
   },
   {
     id: 5,
@@ -53,7 +57,8 @@ const MOCK_FILES = [
     size: "42.3 MB",
     isPremium: true,
     icon: Headphones,
-    color: "#3b82f6"
+    color: "#3b82f6",
+    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
   },
   {
     id: 6,
@@ -63,7 +68,8 @@ const MOCK_FILES = [
     size: "11.2 MB",
     isPremium: true,
     icon: FileText,
-    color: "#6366f1"
+    color: "#6366f1",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
   }
 ];
 
@@ -93,6 +99,22 @@ const FilesPage = () => {
       return matchesSearch && matchesTab;
     });
   }, [searchQuery, activeTab]);
+
+  const handleDownload = (file) => {
+    // Haqiqiy ishlaydigan download
+    const link = document.createElement('a');
+    link.href = file.url;
+    link.target = '_blank';
+    link.download = `${file.title}.${file.type}`; // Browser will try to download or open
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleOpen = (file) => {
+    // Haqiqiy faylni yangi oynada ochish
+    window.open(file.url, '_blank');
+  };
 
   return (
     <div className="files-page-container animate-fade-in">
@@ -179,11 +201,11 @@ const FilesPage = () => {
                 </div>
 
                 <div className="file-card-actions">
-                  <button className="file-action-btn primary">
+                  <button className="file-action-btn primary" onClick={() => handleDownload(file)}>
                     <Download size={16} />
                     <span>{getTranslation('filesPage', 'download')}</span>
                   </button>
-                  <button className="file-action-btn secondary">
+                  <button className="file-action-btn secondary" onClick={() => handleOpen(file)}>
                     <ExternalLink size={16} />
                     <span>{getTranslation('filesPage', 'open')}</span>
                   </button>
