@@ -989,16 +989,27 @@
   }
 
   .hero-cta-buttons {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
     gap: 1rem;
     margin-bottom: 2.5rem;
   }
 
   .cta-btn-primary, .cta-btn-secondary {
-    width: 100%;
+    width: auto;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.85rem 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  .badge-announcement {
+    padding: 0.25rem 0.6rem;
+  }
+
+  .badge-text {
+    font-size: 0.75rem;
   }
 
   .hero-metrics {
@@ -1025,6 +1036,15 @@
 
   .section-title {
     font-size: 1.8rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feat-preview-card {
+    padding: 1.5rem;
   }
 }
 
