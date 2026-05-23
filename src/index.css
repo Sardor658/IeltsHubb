@@ -233,12 +233,12 @@ button {
   }
 
   .nav-icon svg {
-    width: 18px !important;
-    height: 18px !important;
+    width: 24px !important;
+    height: 24px !important;
   }
 
   .nav-text {
-    font-size: 0.55rem !important;
+    font-size: 0.6rem !important;
     font-weight: 700 !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
@@ -250,7 +250,7 @@ button {
   /* Hide labels entirely on extra narrow mobile screens to guarantee no overlap */
   @media (max-width: 440px) {
     .sidebar {
-      height: 55px !important;
+      height: 60px !important;
     }
     .nav-text {
       display: none !important;
@@ -258,6 +258,10 @@ button {
     .nav-item {
       gap: 0 !important;
       padding: 0.5rem 0.25rem !important;
+    }
+    .nav-icon svg {
+      width: 28px !important;
+      height: 28px !important;
     }
   }
 
